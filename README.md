@@ -25,6 +25,9 @@ Currently this has only been tested on MacOS Mojave (10.14).
 MacOS
 -----
 
+1. If you do not have the XCode developer tools installed, run
+   `xcode-select --install` to get the command line tools needed to compile
+   the project.
 1. Activate the python environment you wish to compile to. This can be 
    either the system python or some python version installed in a virtual
    environment.
