@@ -1,5 +1,5 @@
 ---
-title: Radia: 3D Magnetostatics Computer Code
+title: Radia; 3D Magnetostatics Computer Code
 ---
 
 [Radia] is a fast multiplatform software dedicated to 3D magnetostatics
