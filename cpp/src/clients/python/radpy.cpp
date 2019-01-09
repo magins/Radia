@@ -2175,7 +2175,24 @@ static PyObject* radia_UtiDelAll(PyObject *self, PyObject *args)
  ***************************************************************************/
 
 static PyMethodDef radia_methods[] = {
-	{"ObjRecMag", radia_ObjRecMag, METH_VARARGS, "ObjRecMag() instantiates Rectangular Parallelepiped with Constant Magnetizatiom over volume"},
+	{
+    "ObjRecMag", radia_ObjRecMag, METH_VARARGS,
+    "ObjRecMag() instantiates Rectangular Parallelepiped with Constant\n"
+    "Magnetizatiom over volume.\n"
+    "\n"
+    "Parameters\n"
+    "----------\n"
+    "pos: [float, float, float]\n"
+    "  [x, y, z]: list of three real numbers specifying Cartesian coordinates\n"
+    "  of the block's center of gravity (by default in mm).\n"
+    "dim: [float, float, float]\n"
+    "  [wx, wy, wz]: list of three real numbers specifying the block's\n"
+    "  dimensions (by default in mm).\n"
+    "mag: [float, float, float]\n"
+    "  [mx, my, mz]: list of three real numbers specifying magnetization\n"
+    "  vector in the block (by default in Tesla).\n"
+  },
+
 	{"ObjThckPgn", radia_ObjThckPgn, METH_VARARGS, "ObjThckPgn() instantiates a uniformly magnetized extruded polygon"},
 	{"ObjPolyhdr", radia_ObjPolyhdr, METH_VARARGS, "ObjPolyhdr() creates a uniformly magnetized polyhedron (closed volume limited by planes)"},
 	{"ObjArcPgnMag", radia_ObjArcPgnMag, METH_VARARGS, "ObjArcPgnMag() creates a uniformly magnetized finite-length arc of polygonal cross-section"},
