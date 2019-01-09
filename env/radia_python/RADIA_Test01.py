@@ -86,17 +86,20 @@ dmp = rad.UtiDmp([mag01, trf02], 'bin')
 
 elemsRest = rad.UtiDmpPrs(dmp)
 print('Indexes of restored elements:', elemsRest)
+print("OpenGL elements")
 rad.ObjDrwOpenGL(elemsRest[0])
 
+print("First element")
 print(rad.UtiDmp(elemsRest[0], 'asc'))
+print("Second element")
 print(rad.UtiDmp(elemsRest[1], 'asc'))
 
 #rad.UtiDel(elemsRest[0])
 #print(rad.UtiDmp(elemsRest[0], 'asc'))
 
 print(rad.UtiDmp(trf03, 'asc'))
-rad.UtiDelAll()
-print(rad.UtiDmp(trf03, 'asc'))
+# rad.UtiDelAll()
+# print(rad.UtiDmp(trf03, 'asc'))
 
 
 #cutMag = rad.ObjCutMag(mag, [0,0,50], [0,0,1], "Frame->Lab")
