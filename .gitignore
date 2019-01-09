@@ -1,0 +1,6 @@
+# C library files
+*.a
+*.so
+
+# Python compiled files
+*.pyc
