@@ -1167,13 +1167,16 @@ static PyObject* radia_ObjDivMagCyl(PyObject *self, PyObject *args)
 /************************************************************************//**
  * Subdivides (segments) the object obj by a set of coaxial elliptic cylinders. 
  ***************************************************************************/
-static PyObject* radia_ObjDivMag(PyObject *self, PyObject *args)
+static PyObject* radia_ObjDivMag(PyObject *self,
+    PyObject *args, PyObject *keywds)
 {
 	PyObject *oSbdPar=0, *oType=0, *oDir=0, *oOpt=0, *oResInd=0;
+  static char* kwlist[] = {"id", "divisions", "mode", "direction", "option", NULL};
+
 	try
 	{
 		int ind = 0;
-		if(!PyArg_ParseTuple(args, "iO|OOO:ObjDivMag", &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
+		if(!PyArg_ParseTupleAndKeywords(args, keywds, "iO|OO$O:ObjDivMag", kwlist, &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 		//if(!PyArg_ParseTuple(args, "iOOO|O:ObjDivMag", &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 		if((ind == 0) || (oSbdPar == 0)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 
@@ -1183,8 +1186,9 @@ static PyObject* radia_ObjDivMag(PyObject *self, PyObject *args)
 		char resP = CPyParse::CopyPyNestedListElemsToNumAr(oSbdPar, 'd', pSbdPar, nSbdPar);
 		if(resP == 0) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 
-		char sOpt[1024]; *sOpt = '\0';
-		if(oOpt != 0) CPyParse::CopyPyStringToC(oOpt, sOpt, 1024);
+    char sOpt[1024]; *sOpt = '\0';
+		//char sOpt[] = "kxkykz->Size";
+    if(oOpt != 0) CPyParse::CopyPyStringToC(oOpt, sOpt, 1024);
 
 		//char sType[32]; *sType = '\0';
 		char sType[] = "pln";
@@ -2226,7 +2230,7 @@ static PyMethodDef radia_methods[] = {
 	{"ObjCutMag", radia_ObjCutMag, METH_VARARGS, "ObjCutMag() cuts 3D object by a plane passing through a given point normally to a given vector"},
 	{"ObjDivMagPln", radia_ObjDivMagPln, METH_VARARGS, "ObjDivMagPln() subdivides (segments) a 3D object by 3 sets of parallel planes"},
 	{"ObjDivMagCyl", radia_ObjDivMagCyl, METH_VARARGS, "ObjDivMagCyl() subdivides (segments) a 3D object obj by a set of coaxial elliptical cylinders"},
-	{"ObjDivMag", radia_ObjDivMag, METH_VARARGS, "ObjDivMag() subdivides (segments) a 3D object obj by sets of parallel planes or coaxial elliptical cylinders"},
+	{"ObjDivMag", (PyCFunction)radia_ObjDivMag, METH_VARARGS|METH_KEYWORDS, "ObjDivMag() subdivides (segments) a 3D object obj by sets of parallel planes or coaxial elliptical cylinders"},
 	{"ObjGeoVol", radia_ObjGeoVol, METH_VARARGS, "ObjGeoVol() computes geometrical volume of a 3D object"},
 	{"ObjGeoLim", radia_ObjGeoLim, METH_VARARGS, "ObjGeoLim() computes coordinates of object extrimities in laboratory frame"},
 	{"ObjDegFre", radia_ObjDegFre, METH_VARARGS, "ObjDegFre() gives number of degrees of freedom for the relaxation of an object"},
