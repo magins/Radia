@@ -11,40 +11,51 @@ from time import *
 from math import *
 from array import *
 
-print('RADIA Python Example #5:')
-print('This example concerns geometries dominated by iron.')
-print('')
-print('The field computation with Radia in the case of iron dominated geometries ')
-print('presents a few specific difficulties and is usually less accurate than ')
-print('in the case of coil or permanent magnet dominated structure. Nevertheless, ')
-print('special methods have been developed to reach a reasonable precision within ')
-print('a reasonable CPU time and memory. ')
-print('The example below is that of a simple dipole steerer made of a closed circuit ')
-print('of iron with a small gap and a coil wounded around the circuit that drives ')
-print('some flux in the iron (see the graphics below). This example is more delicate ')
-print('than all previous examples and we advise the beginner to first get experienced ')
-print('with them before diving into this one. ')
-print('Among the most important things to remember if one wants to reach a good ')
-print('precision in a reasonable time are: ')
-print('- Always segment the corners of the iron circuits as parallel or perpendicular ')
-print('to the flux line as possible. For right angle corners, this can be done with ')
-print('the circular or ellipsoidal mode of segmentation (see below). ')
-print('This is extremely important. ')
-print('In this example, we make use of the circular segmentation twice (the other ')
-print('two corners are segmented similarly by symmetry) it is made in the section ')
-print('entitled "Defining the Model" when calling ')
-print('  "rad.ObjDivMag(g3,[nbr,nbp,n3[1]],\'cyl\',typ)" and ')
-print('  "rad.ObjDivMag(g5,[nbr,nbp,n5[0]],\'cyl\',typ)". ')
-print('- Use a narrower segmentation on the iron faces close to the region ')
-print('of interest. ')
-print('- Start with low segmentation numbers and increase them gradually to check that ')
-print('the field is stable. Beware that the memory and cpu time tends to grow like ')
-print('the square number of elements. ')
-print('- Use symmetries as much as possible. It saves both memory and CPU time. ')
-print('The steerer dipole shown below has a symmetry of order 2 x 2. 16 times more ')
-print('memory and 4 times more CPU time would have been needed without using ')
-print('the symmetries. ')
-print('')
+print("""\
+RADIA Python Example #5:
+
+This example concerns geometries dominated by iron.
+
+The field computation with Radia in the case of iron dominated geometries
+presents a few specific difficulties and is usually less accurate than in
+the case of coil or permanent magnet dominated structure. Nevertheless,
+special methods have been developed to reach a reasonable precision within a
+reasonable CPU time and memory.
+
+The example below is that of a simple dipole steerer made of a closed
+circuit of iron with a small gap and a coil wounded around the circuit that
+drives some flux in the iron (see the graphics below). This example is more
+delicate than all previous examples and we advise the beginner to first get
+experienced with them before diving into this one.
+
+Among the most important things to remember if one wants to reach a good
+precision in a reasonable time are:
+
+- Always segment the corners of the iron circuits as parallel or perpendicular
+  to the flux line as possible. For right angle corners, this can be done
+  with the circular or ellipsoidal mode of segmentation (see below). This is
+  extremely important.
+
+  In this example, we make use of the circular segmentation twice (the other
+  two corners are segmented similarly by symmetry) it is made in the section
+  entitled "Defining the Model" when calling
+
+    "rad.ObjDivMag(g3,[nbr,nbp,n3[1]],\'cyl\',typ)" and
+    "rad.ObjDivMag(g5,[nbr,nbp,n5[0]],\'cyl\',typ)".
+
+- Use a narrower segmentation on the iron faces close to the region
+  of interest.
+
+- Start with low segmentation numbers and increase them gradually to check
+  that the field is stable. Beware that the memory and cpu time tends to
+  grow like the square number of elements.
+
+- Use symmetries as much as possible. It saves both memory and CPU time.
+  The steerer dipole shown below has a symmetry of order 2 x 2. 16 times
+  more memory and 4 times more CPU time would have been needed without using
+  the symmetries.
+""")
+
 
 #*********************************Geometry
 def Geom(circ):
