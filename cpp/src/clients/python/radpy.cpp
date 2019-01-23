@@ -1189,7 +1189,6 @@ static PyObject* radia_ObjDivMag(PyObject *self,
 		if(resP == 0) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 
     char sOpt[1024]; *sOpt = '\0';
-		//char sOpt[] = "kxkykz->Size";
     if(oOpt != 0) CPyParse::CopyPyStringToC(oOpt, sOpt, 1024);
 
 		//char sType[32]; *sType = '\0';
@@ -1931,7 +1930,8 @@ static PyObject* radia_Solve(PyObject *self, PyObject *args)
 }
 
 /************************************************************************//**
- * Magnetic Field Calculation Methods: Computes field created by the object obj at one or many points
+ * Magnetic Field Calculation Methods: Computes field created by the object obj
+ * at one or many points
  ***************************************************************************/
 static PyObject* radia_Fld(PyObject *self, PyObject *args)
 {
