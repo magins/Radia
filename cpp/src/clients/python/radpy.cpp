@@ -12,6 +12,8 @@
 #include "pyparse.h"
 #include "auxparse.h"
 
+#define NONE Py_BuildValue("s", NULL)
+
 /************************************************************************//**
  * Error messages related to Python interface functions
  ***************************************************************************/
