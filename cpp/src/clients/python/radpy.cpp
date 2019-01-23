@@ -2006,6 +2006,59 @@ static PyObject* radia_FldCmpPrc(PyObject *self, PyObject *args)
   return NONE;
 }
 
+
+/************************************************************************//**
+ * Magnetic Field Calculation Methods: Computes potential energy (in Joule) of
+ * the object objdst in the field created by the object objsrc. If SbdPar = 0,
+ * the function performes the computation based on absolute accuracy value for
+ * the energy (by default 10 Joule; can be modified by the function
+ * radFldCmpPrc). Otherwise, the computation is performed based on the
+ * destination object subdivision numbers
+ * (kx=SbdPar[0],ky=SbdPar[1],kz=SbdPar[2]).
+ ***************************************************************************/
+static PyObject* radia_FldEnr(PyObject *self, PyObject *args)
+{
+	int obj_to_compute_energy_on_ref;
+	int source_mag_field_ref;
+  PyObject *py_subdivision_list=0, *py_energy_J;
+	try
+	{
+		if(!PyArg_ParseTuple(args, "ii|O:FldEnr",
+                         &obj_to_compute_energy_on_ref,
+                         &source_mag_field_ref,
+                         &py_subdivision_list)){
+      throw CombErStr(strEr_BadFuncArg, ": FldEnr");
+    }
+
+    int length_subdivision_list = 3;
+    int *subdivision_list = 0;
+    if (py_subdivision_list != 0) {
+      char copy_error = CPyParse::CopyPyNestedListElemsToNumAr(
+        py_subdivision_list, 'i', subdivision_list,
+        length_subdivision_list);
+
+      if(copy_error == 0){
+        throw CombErStr(strEr_BadFuncArg, ": FldEnr");
+      }
+    }
+
+    double energy_J;
+    int err = RadFldEnr(&energy_J,
+                        obj_to_compute_energy_on_ref,
+                        source_mag_field_ref,
+                        subdivision_list);
+		g_pyParse.ProcRes(err);
+    py_energy_J = Py_BuildValue("d", energy_J);
+	}
+	catch(const char* erText)
+	{
+		PyErr_SetString(PyExc_RuntimeError, erText);
+	}
+
+  return py_energy_J;
+}
+
+
 /************************************************************************//**
  * Magnetic Field Calculation Methods: Computes magnetic field integral produced by the object obj along a straight line specified by points P1 and P2.
  * Depending on the InfOrFin variable value, the integral is infinite ("inf") or finite ("fin"), from P1 to P2; the field integral component is specified by the id input variable. The unit is T*mm.
@@ -2298,6 +2351,7 @@ static PyMethodDef radia_methods[] = {
 
 	{"Fld", radia_Fld, METH_VARARGS,  "Fld() computes field created by the object obj at one or many points"},
 	{"FldCmpPrc", radia_FldCmpPrc, METH_VARARGS,  "FldCmpPrc() Sets general absolute accuracy levels for computation of magnetic field induction (PrcB), vector potential (PrcA), induction integral along straight line (PrcBInt), field force (PrcForce), torque (PrcTorque), energy (PrcEnergy); rela- tivistic charged particle trajectory coordinates (PrcCoord) and angles (PrcAngle)."},
+	{"FldEnr", radia_FldEnr, METH_VARARGS,  "FldEnr() Computes potential energy (in Joule) of the object objdst in the field created by the object objsrc. If SbdPar = 0, the function performes the computation based on absolute accuracy value for the energy (by default 10 Joule; can be modified by the function radFldCmpPrc). Otherwise, the computation is performed based on the destination object subdivision numbers (kx=SbdPar[0],ky=SbdPar[1],kz=SbdPar[2])."},
 	{"FldInt", radia_FldInt, METH_VARARGS, "FldInt() computes magnetic field integral produced by magnetic field source object along a straight line"},
 
 	{"UtiDmp", radia_UtiDmp, METH_VARARGS, "UtiDmp() outputs information (in bnary or in ASCII format) about an object or list of objects"},
