@@ -1973,6 +1973,39 @@ static PyObject* radia_Fld(PyObject *self, PyObject *args)
 	return oResB;
 }
 
+
+/************************************************************************//**
+ * Magnetic Field Calculation Methods: Sets general absolute accuracy levels for
+ * computation of magnetic field induction (PrcB), vector potential (PrcA),
+ * induction integral along straight line (PrcBInt), field force (PrcForce),
+ * torque (PrcTorque), energy (PrcEnergy); rela- tivistic charged particle
+ * trajectory coordinates (PrcCoord) and angles (PrcAngle). The function works
+ * according to the mechanism of string options. The name(s) of the option(s)
+ * should be: PrcB, PrcA, PrcBInt, PrcForce, PrcTorque, PrcEnergy, PrcCoord,
+ * PrcAngle
+ ***************************************************************************/
+static PyObject* radia_FldCmpPrc(PyObject *self, PyObject *args)
+{
+	char *sOpt;
+	try
+	{
+		if(!PyArg_ParseTuple(args, "s:FldCmpPrc", &sOpt)){
+      throw CombErStr(strEr_BadFuncArg, ": FldCmpPrc");
+    }
+
+		int dummy = 0;
+    int err = RadFldCmpPrc(&dummy, sOpt);
+		g_pyParse.ProcRes(err);
+
+	}
+	catch(const char* erText)
+	{
+		PyErr_SetString(PyExc_RuntimeError, erText);
+	}
+
+  return NONE;
+}
+
 /************************************************************************//**
  * Magnetic Field Calculation Methods: Computes magnetic field integral produced by the object obj along a straight line specified by points P1 and P2.
  * Depending on the InfOrFin variable value, the integral is infinite ("inf") or finite ("fin"), from P1 to P2; the field integral component is specified by the id input variable. The unit is T*mm.
@@ -2264,6 +2297,7 @@ static PyMethodDef radia_methods[] = {
 	{"Solve", radia_Solve, METH_VARARGS, "Solve() solves a magnetostatic problem, i.e. builds an interaction matrix and performs a relaxation procedure"},
 
 	{"Fld", radia_Fld, METH_VARARGS,  "Fld() computes field created by the object obj at one or many points"},
+	{"FldCmpPrc", radia_FldCmpPrc, METH_VARARGS,  "FldCmpPrc() Sets general absolute accuracy levels for computation of magnetic field induction (PrcB), vector potential (PrcA), induction integral along straight line (PrcBInt), field force (PrcForce), torque (PrcTorque), energy (PrcEnergy); rela- tivistic charged particle trajectory coordinates (PrcCoord) and angles (PrcAngle)."},
 	{"FldInt", radia_FldInt, METH_VARARGS, "FldInt() computes magnetic field integral produced by magnetic field source object along a straight line"},
 
 	{"UtiDmp", radia_UtiDmp, METH_VARARGS, "UtiDmp() outputs information (in bnary or in ASCII format) about an object or list of objects"},
