@@ -1710,6 +1710,47 @@ static PyObject* radia_MatStd(PyObject *self, PyObject *args)
 /************************************************************************//**
  * Magnetic Materials: a nonlinear isotropic magnetic material with the magnetization magnitude equal M = ms1*tanh(ksi1*H/ms1) + ms2*tanh(ksi2*H/ms2) + ms3*tanh(ksi3*H/ms3), where H is the magnitude of the magnetic field strength vector (in Tesla).
  ***************************************************************************/
+static PyObject* radia_MatLin(PyObject *self, PyObject *args)
+{
+	PyObject *py_Ksi_list = 0;
+  double Mr;
+  PyObject *py_material_index;
+	try
+    {
+      if(!PyArg_ParseTuple(args, "Od:MatLin", &py_Ksi_list, &Mr)){
+        throw CombErStr(strEr_BadFuncArg, ": MatLin");
+      }
+
+      if(py_Ksi_list == 0) throw CombErStr(strEr_BadFuncArg, ": MatLin");
+
+      int length_Ksi_list = 2;
+      double *Ksi_list = 0;
+
+      char copy_error = CPyParse::CopyPyNestedListElemsToNumAr(
+        py_Ksi_list, 'd', Ksi_list,
+        length_Ksi_list);
+
+      if(copy_error == 0){
+        throw CombErStr(strEr_BadFuncArg, ": MatLin");
+      }
+
+      int material_index = 0;
+      int err = RadMatLin(&material_index, Ksi_list, &Mr, 1);
+      g_pyParse.ProcRes(err);
+
+      py_material_index = Py_BuildValue("i", material_index);
+      Py_XINCREF(py_material_index); //?
+    }
+	catch(const char* erText)
+    {
+      PyErr_SetString(PyExc_RuntimeError, erText);
+    }
+	return py_material_index;
+}
+
+/************************************************************************//**
+ * Magnetic Materials: a nonlinear isotropic magnetic material with the magnetization magnitude equal M = ms1*tanh(ksi1*H/ms1) + ms2*tanh(ksi2*H/ms2) + ms3*tanh(ksi3*H/ms3), where H is the magnitude of the magnetic field strength vector (in Tesla).
+ ***************************************************************************/
 static PyObject* radia_MatSatIsoFrm(PyObject *self, PyObject *args)
 {
 	PyObject *oPair1=0, *oPair2=0, *oPair3=0, *oResInd=0;
@@ -2401,6 +2442,7 @@ static PyMethodDef radia_methods[] = {
 	{"TrfZerPerp", radia_TrfZerPerp, METH_VARARGS, "TrfZerPerp() creates an object mirror with respect to a plane. The object mirror possesses the same geometry as obj, but its magnetization and/or current densities are modified in such a way that the magnetic field produced by the obj and its mirror in the plane of mirroring is parallel to this plane"},
 
 	{"MatApl", radia_MatApl, METH_VARARGS, "MatApl() applies magnetic material to a 3D object"},
+	{"MatLin", radia_MatLin, METH_VARARGS, "MatLin() Creates a linear anisotropic magnetic material."},
 	{"MatStd", radia_MatStd, METH_VARARGS, "MatStd() creates a pre-defined magnetic material (the material is identified by its name/formula, e.g. \"NdFeB\")"},
 	{"MatSatIsoFrm", radia_MatSatIsoFrm, METH_VARARGS, "MatSatIsoFrm() creates a nonlinear isotropic magnetic material with the M versus H curve defined by the formula M = ms1*tanh(ksi1*H/ms1) + ms2*tanh(ksi2*H/ms2) + ms3*tanh(ksi3*H/ms3), where H is the magnitude of the magnetic field strength vector (in Tesla)"},
 	{"MatSatIsoTab", radia_MatSatIsoTab, METH_VARARGS, "MatSatIsoTab() creates a nonlinear isotropic magnetic material with the M versus H curve defined by the list of pairs corresponding values of H and M [[H1,M1],[H2,M2],...]"},
