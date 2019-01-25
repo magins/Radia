@@ -28,10 +28,18 @@ MacOS
 1. If you do not have the XCode developer tools installed, run
    `xcode-select --install` to get the command line tools needed to compile
    the project.
-1. Activate the python environment you wish to compile to. This can be 
+2. Activate the python environment you wish to compile to. This can be 
    either the system python or some python version installed in a virtual
    environment.
-2. Run `make all`, which will compile both FFTW and the python library.
+3. Run `make all`, which will compile both FFTW and the python library.
+
+
+Installing with pip
+===================
+
+When the package has been compiled (see above), radia can be installed into
+your python environment by going to the `cpp/py` directory and running `pip
+install -e .`.
 
 
 Running Python
