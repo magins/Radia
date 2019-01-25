@@ -2482,7 +2482,7 @@ static struct PyModuleDef radiamodule = {
     NULL
 };
 
-PyMODINIT_FUNC PyInit_radia(void)
+PyMODINIT_FUNC PyInit__radia(void)
 { 
 	//setting pointer to function to be eventually called from SRWLIB
 	//srwlUtiSetWfrModifFunc(&ModifySRWLWfr);
