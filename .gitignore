@@ -1,6 +1,5 @@
 # C library files
 *.a
-*.so
 
 ##########
 # Python #
