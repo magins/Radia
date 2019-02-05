@@ -1178,7 +1178,7 @@ static PyObject* radia_ObjDivMag(PyObject *self,
 	try
 	{
 		int ind = 0;
-		if(!PyArg_ParseTupleAndKeywords(args, keywds, "iO|OO$O:ObjDivMag", kwlist, &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
+		if(!PyArg_ParseTupleAndKeywords(args, keywds, "iO|OOO:ObjDivMag", kwlist, &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 		//if(!PyArg_ParseTuple(args, "iOOO|O:ObjDivMag", &ind, &oSbdPar, &oType, &oDir, &oOpt)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 		if((ind == 0) || (oSbdPar == 0)) throw CombErStr(strEr_BadFuncArg, ": ObjDivMag");
 
