@@ -5,7 +5,7 @@
 #############################################################################
 
 from __future__ import absolute_import, division, print_function #Py 2.*/3.* compatibility
-import radia as rad
+from radia import plumbing as rad
 import sys
 import time
 
